@@ -45,7 +45,7 @@ class ThermogardCalculator(BaseCalculator):
             "roi": roi,
             "cost_per_bird": total_medication_cost / flock_size if flock_size else 0,
             "benefit_per_bird": total_benefit / flock_size if flock_size else 0,
-            "net_profit_per_bird": net_profit / flock_size if flock_size else 0,`   `
+            "net_profit_per_bird": net_profit / flock_size if flock_size else 0,
             "medication_duration_days": medication_duration,
             "total_water_l": total_water_l,
             "total_product_dose_ml": total_product_dose_ml,
