@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-palette="amber">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Poultry Product ROI & Profit Impact Calculator</title>
+  <meta name="description" content="Commercial Poultry Product ROI & Economic Impact Calculator for Gutsol, Immon, Colikil, CRDX-IR, and Thermogard. Clean, bright, and 100% offline capable.">
+  <meta name="theme-color" content="#F8FAFC">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    /* ── RESET & CLEAN LIGHT THEME TOKENS (NO BLACK COLOR) ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root, [data-palette="amber"] {
+      /* Bright, Executive Warm Amber Palette */
+      --bg-base: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-surface-elevated: #FFFDF9;
+      --bg-input: #F8FAFC;
+      --bg-glass: rgba(255, 255, 255, 0.96);
+      --border-color: #E2E8F0;
+      --border-hover: #CBD5E1;
+      --border-focus: #D97706;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --text-sub: #64748B;
+
+      --brand-primary: #D97706;
+      --brand-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 60%, #EA580C 100%);
+      --amber: #D97706;
+      --amber-soft: #FEF3C7;
+      --bronze: #C2410C;
+      --bronze-soft: #FFEDD5;
+      --emerald: #059669;
+      --emerald-glow: rgba(5, 150, 105, 0.18);
+      --emerald-soft: #ECFDF5;
+      --blue: #0284C7;
+      --blue-soft: #E0F2FE;
+      --purple: #7C3AED;
+      --purple-soft: #F3E8FF;
+      --danger: #DC2626;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 14px 34px rgba(15, 23, 42, 0.09);
+      --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+      --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 50%, #FFF7ED 100%);
+      --hero-border: #FDBA74;
+      --hero-shadow: 0 10px 30px rgba(217, 119, 6, 0.10);
+      --hero-title-color: #9A3412;
+      --active-card-bg: #FFFBEB;
+    }
+
+    /* ── PALETTE 2: FRESH AGRICULTURAL EMERALD ── */
+    [data-palette="emerald"] {
+      --brand-primary: #059669;
+      --brand-gradient: linear-gradient(135deg, #10B981 0%, #059669 60%, #047857 100%);
+      --border-focus: #059669;
+      --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F0FDF4 50%, #DCFCE7 100%);
+      --hero-border: #86EFAC;
+      --hero-shadow: 0 10px 30px rgba(5, 150, 105, 0.10);
+      --hero-title-color: #065F46;
+      --active-card-bg: #ECFDF5;
+    }
+
+    /* ── PALETTE 3: CORPORATE NAVY & BLUE ── */
+    [data-palette="navy"] {
+      --brand-primary: #2563EB;
+      --brand-gradient: linear-gradient(135deg, #3B82F6 0%, #2563EB 60%, #1D4ED8 100%);
+      --border-focus: #2563EB;
+      --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 50%, #EFF6FF 100%);
+      --hero-border: #93C5FD;
+      --hero-shadow: 0 10px 30px rgba(37, 99, 235, 0.10);
+      --hero-title-color: #1E40AF;
+      --active-card-bg: #EFF6FF;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--bg-glass);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--brand-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 24px;
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
+      flex-shrink: 0;
+    }
+
+    .brand-info h1 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Palette Picker */
+    .palette-picker {
+      display: flex;
+      background: #F1F5F9;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .palette-btn {
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .palette-btn:hover {
+      color: var(--text-main);
+    }
+
+    .palette-btn.active {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .badge-offline {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    /* ── MAIN CONTAINER ── */
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* ── CATEGORY & PRODUCT NAVIGATION ── */
+    .catalog-nav {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .catalog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .category-tabs::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .category-tabs::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .cat-tab {
+      background: #F1F5F9;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 15px;
+      border-radius: 9999px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .cat-tab:hover {
+      color: var(--text-main);
+      background: #E2E8F0;
+    }
+
+    .cat-tab.active {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+    }
+
+    .product-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .product-card-btn {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card-btn:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .product-card-btn.active {
+      background: var(--active-card-bg);
+      border-color: var(--brand-primary);
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.15);
+    }
+
+    .product-card-btn.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--brand-primary);
+    }
+
+    .product-card-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-card-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+    }
+
+    .product-card-btn.active .form-pill {
+      border-color: rgba(217, 119, 6, 0.3);
+      color: var(--brand-primary);
+      background: #FFFFFF;
+    }
+
+    /* ── MAIN WORKSPACE GRID ── */
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 980px) {
+      .calc-grid {
+        grid-template-columns: 410px 1fr;
+        align-items: start;
+      }
+    }
+
+    /* ── CARD SURFACES (CRISP WHITE) ── */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    /* ── PRESET BUTTONS & SCENARIOS ── */
+    .control-ribbon {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 20px;
+    }
+
+    .ribbon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ribbon-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-sub);
+    }
+
+    .chip-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      font-family: inherit;
+    }
+
+    .chip-btn:hover {
+      background: #F1F5F9;
+      color: var(--text-main);
+      border-color: var(--border-focus);
+    }
+
+    .chip-btn.active {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      border-color: var(--brand-primary);
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+    }
+
+    /* ── INPUT FIELDS WITH DUAL RANGE & STEPPER ── */
+    .inputs-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .input-row-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .input-row-card:focus-within {
+      border-color: var(--border-focus);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+    }
+
+    .input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .input-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .input-unit-tag {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      background: #FFFFFF;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .input-field-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .step-btn {
+      width: 32px;
+      height: 34px;
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s ease;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .step-btn:hover {
+      background: #F1F5F9;
+      border-color: var(--border-hover);
+    }
+
+    .step-btn:active {
+      transform: scale(0.95);
+    }
+
+    .num-input {
+      width: 100%;
+      height: 34px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 4px 10px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      transition: border-color 0.15s ease;
+    }
+
+    .num-input:focus {
+      border-color: var(--border-focus);
+    }
+
+    /* Sliders */
+    .range-slider-wrap {
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+    }
+
+    .range-slider {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--brand-primary);
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .range-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--brand-primary);
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    /* ── RESULTS PANEL ── */
+    .results-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── HERO BANNER (CLEAN & BRIGHT) ── */
+    .hero-kpi-card {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--hero-border);
+      border-radius: var(--radius-xl);
+      padding: 26px 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--hero-shadow);
+    }
+
+    .hero-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hero-product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1px solid var(--hero-border);
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--hero-title-color);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .roi-pill-container {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      background: #ECFDF5;
+      border: 1.5px solid #A7F3D0;
+      padding: 8px 18px;
+      border-radius: var(--radius-lg);
+      color: #065F46;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.12);
+    }
+
+    .roi-pill-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #047857;
+    }
+
+    .roi-pill-value {
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1;
+      color: #065F46;
+    }
+
+    .hero-profit-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--hero-title-color);
+      margin-bottom: 6px;
+    }
+
+    .hero-profit-value {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #059669;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .hero-profit-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.45;
+    }
+
+    /* ── METRIC KPI GRID ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .kpi-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kpi-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .kpi-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .kpi-card.investment .kpi-value { color: var(--amber); }
+    .kpi-card.benefit .kpi-value { color: var(--blue); }
+    .kpi-card.profit .kpi-value { color: var(--emerald); }
+    .kpi-card.multiplier .kpi-value { color: var(--purple); }
+
+    /* ── CONTROL VS TREATMENT TRIAL CARD ── */
+    .trial-comparison-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      display: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .trial-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .trial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .trial-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .trial-box.treatment {
+      border-color: #A7F3D0;
+      background: #ECFDF5;
+    }
+
+    .trial-box-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: var(--text-sub);
+    }
+
+    .trial-box.treatment .trial-box-title {
+      color: #065F46;
+    }
+
+    .trial-box-metric {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .trial-box-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* ── BENEFIT BREAKDOWN BAR ── */
+    .breakdown-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .breakdown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .bar-container {
+      height: 22px;
+      background: #F1F5F9;
+      border-radius: 9999px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 14px;
+      border: 1px solid var(--border-color);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .bar-seg {
+      height: 100%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      border-radius: 4px;
+    }
+
+    .bar-seg.weight { background: #0284C7; }
+    .bar-seg.mortality { background: #059669; }
+    .bar-seg.feed { background: #D97706; }
+    .bar-seg.egg { background: #7C3AED; }
+
+    .breakdown-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .legend-item {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .legend-dot.weight { background: #0284C7; }
+    .legend-dot.mortality { background: #059669; }
+    .legend-dot.feed { background: #D97706; }
+    .legend-dot.egg { background: #7C3AED; }
+
+    .legend-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .legend-text {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+    }
+
+    .legend-val {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* ── SHARING & ACTIONS TOOLBAR ── */
+    .actions-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .actions-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 10px 18px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn-whatsapp {
+      background: #059669;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+    }
+
+    .btn-whatsapp:hover {
+      background: #047857;
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-quote {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+    }
+
+    .btn-quote:hover {
+      background: #B45309;
+      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-copy {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-copy:hover {
+      background: #F8FAFC;
+      border-color: var(--border-hover);
+    }
+
+    .btn-print {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-print:hover {
+      background: #F8FAFC;
+      border-color: var(--border-hover);
+    }
+
+    /* ── QUOTATION MODAL ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 26px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .quote-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .quote-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .quote-field input {
+      width: 100%;
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .quote-field input:focus {
+      border-color: var(--brand-primary);
+      background: #FFFFFF;
+    }
+
+    .quote-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .quote-table th {
+      background: #F1F5F9;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .quote-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    /* ── TOAST NOTIFICATION ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #059669;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 22px 16px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      background: #FFFFFF;
+    }
+
+    /* ── PRINT VIEW FOR CLIENT QUOTATIONS ── */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+      }
+
+      header, .catalog-nav, .actions-card, .control-ribbon, footer, .modal-backdrop {
+        display: none !important;
+      }
+
+      .calc-grid {
+        display: block !important;
+      }
+
+      .card, .hero-kpi-card, .kpi-card, .breakdown-card, .trial-comparison-card {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        border: 1px solid #CCCCCC !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        margin-bottom: 16px;
+      }
+
+      .hero-profit-value, .kpi-value {
+        color: #000000 !important;
+      }
+
+      .print-header-only {
+        display: block !important;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #000000;
+        padding-bottom: 12px;
+      }
+    }
+
+    .print-header-only {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Print Header Only -->
+  <div class="print-header-only">
+    <h1 style="font-size: 18pt; font-weight: 800; margin-bottom: 4px;">Commercial Poultry ROI & Economic Benefit Assessment</h1>
+    <p style="font-size: 10pt; color: #444;">Validated Technical Field Trial Economics &bull; Confidential Client Quotation</p>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <!-- Poultry Bird SVG Icon -->
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0 4 4 4 4 0 0 0 4-4V6a4 4 0 0 0-4-4z"/>
+            <path d="M12 11v10"/>
+            <path d="M8 15h8"/>
+            <path d="M9 21l3-3 3 3"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>Poultry Product ROI & Profit Impact</h1>
+          <p>Validated Economic Decision Engine & Commercial Field Modeling</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <!-- Palette Switcher -->
+        <div class="palette-picker" title="Select color palette">
+          <button type="button" class="palette-btn active" data-palette-val="amber" onclick="setPalette('amber')" title="Warm Amber & Gold">
+            🌾 Amber
+          </button>
+          <button type="button" class="palette-btn" data-palette-val="emerald" onclick="setPalette('emerald')" title="Fresh Agricultural Emerald">
+            🌿 Emerald
+          </button>
+          <button type="button" class="palette-btn" data-palette-val="navy" onclick="setPalette('navy')" title="Corporate Blue & Navy">
+            🌊 Navy
+          </button>
+        </div>
+
+        <span class="badge badge-offline">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          100% Offline Ready
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+    <!-- Categorized Catalog Navigation -->
+    <section class="catalog-nav" aria-label="Product Selection">
+      <div class="catalog-header">
+        <div class="category-tabs" id="categoryTabs">
+          <button class="cat-tab active" onclick="filterCategory('all', this)">🌟 All Products (9)</button>
+          <button class="cat-tab" onclick="filterCategory('Gut Health', this)">🫀 Gut Health</button>
+          <button class="cat-tab" onclick="filterCategory('Feed & Growth', this)">⚖️ Feed & Growth</button>
+          <button class="cat-tab" onclick="filterCategory('Layer', this)">🥚 Layer & Eggs</button>
+          <button class="cat-tab" onclick="filterCategory('Water & Stress', this)">☀️ Heat & Stress</button>
+        </div>
+        <button class="chip-btn" onclick="resetCurrentProductDefaults()" title="Reset current product parameters to standard baseline">
+          ↺ Reset Defaults
+        </button>
+      </div>
+
+      <!-- Product Cards Grid -->
+      <div class="product-cards-grid" id="productCardsGrid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Layout Grid: Inputs on Left, Results on Right -->
+    <div class="calc-grid">
+      <!-- Inputs Column -->
+      <section class="card" aria-label="Input Parameters">
+        <div class="card-title">
+          <span>Farm & Product Inputs</span>
+          <span id="productCategoryBadge" class="badge" style="background: #F1F5F9; color: var(--text-muted); border: 1px solid var(--border-color);">Gut Health</span>
+        </div>
+        <div class="card-subtitle" id="productDesc">Adjust values using sliders or numeric fields below to see real-time commercial ROI impact.</div>
+
+        <!-- Flock Presets & Scenario Simulator Ribbon -->
+        <div class="control-ribbon">
+          <!-- Flock Presets (Visible when product contains flock_size) -->
+          <div class="ribbon-row" id="flockPresetRow">
+            <span class="ribbon-label">Quick Flock:</span>
+            <div class="chip-group">
+              <button type="button" class="chip-btn" onclick="applyFlockPreset(1000)">1k</button>
+              <button type="button" class="chip-btn" onclick="applyFlockPreset(5000)">5k</button>
+              <button type="button" class="chip-btn" onclick="applyFlockPreset(10000)">10k</button>
+              <button type="button" class="chip-btn" onclick="applyFlockPreset(25000)">25k</button>
+              <button type="button" class="chip-btn" onclick="applyFlockPreset(50000)">50k</button>
+            </div>
+          </div>
+
+          <!-- What-if Scenario Selector -->
+          <div class="ribbon-row">
+            <span class="ribbon-label">What-If:</span>
+            <div class="chip-group">
+              <button type="button" class="chip-btn" id="scenCons" onclick="applyScenario('conservative')">Conservative (-10%)</button>
+              <button type="button" class="chip-btn active" id="scenBase" onclick="applyScenario('baseline')">Baseline (100%)</button>
+              <button type="button" class="chip-btn" id="scenOpt" onclick="applyScenario('optimistic')">Optimistic (+10%)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Form Fields with Interactive Sliders -->
+        <form class="inputs-form" id="inputsForm" onsubmit="event.preventDefault();">
+          <!-- Populated dynamically based on selected product -->
+        </form>
+      </section>
+
+      <!-- Results Column -->
+      <section class="results-panel" aria-label="Financial Results">
+        <!-- Hero Profit & ROI Banner (Clean, Bright Card) -->
+        <div class="hero-kpi-card">
+          <div class="hero-top-row">
+            <div class="hero-badge-group">
+              <div class="hero-product-badge" id="heroProductBadge">Gutsol Liquid</div>
+              <span id="heroScenarioBadge" class="badge" style="background: #FFF7ED; color: #9A3412; border: 1px solid #FDBA74;">Baseline</span>
+            </div>
+            <div class="roi-pill-container">
+              <span class="roi-pill-label">Benefit / Cost ROI</span>
+              <span class="roi-pill-value" id="heroRoiVal">16.90x</span>
+            </div>
+          </div>
+          <div class="hero-profit-title">Estimated Net Profit Impact</div>
+          <div class="hero-profit-value" id="heroNetProfit">₹33,400</div>
+          <div class="hero-profit-desc" id="heroSubtext">Total financial return after deducting all product costs.</div>
+        </div>
+
+        <!-- 4 Core Executive Metric Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card investment">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Total Investment
+            </div>
+            <div class="kpi-value" id="kpiInvestment">₹2,100</div>
+            <div class="kpi-sub" id="kpiCostPerBird">₹0.21 per bird</div>
+          </div>
+
+          <div class="kpi-card benefit">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Gross Benefit
+            </div>
+            <div class="kpi-value" id="kpiBenefit">₹35,500</div>
+            <div class="kpi-sub" id="kpiBenefitPerBird">₹3.55 per bird</div>
+          </div>
+
+          <div class="kpi-card profit">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Net Profit / Bird
+            </div>
+            <div class="kpi-value" id="kpiNetPerBird">₹3.34</div>
+            <div class="kpi-sub" id="kpiFlockSizeInfo">Flock: 10,000 birds</div>
+          </div>
+
+          <div class="kpi-card multiplier">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Net Margin Gain
+            </div>
+            <div class="kpi-value" id="kpiMultiplier">+1,590%</div>
+            <div class="kpi-sub" id="kpiRatioSub">Benefit:Cost Ratio</div>
+          </div>
+        </div>
+
+        <!-- Trial Comparison Card (Shown when product has control vs treatment data) -->
+        <div class="trial-comparison-card" id="trialComparisonCard">
+          <div class="trial-header">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Validated Field Trial Comparison (Control vs. Treatment)
+            </div>
+            <span class="badge" style="background: #F1F5F9; color: var(--text-muted);" id="trialMetaTag">Trial Data</span>
+          </div>
+          <div class="trial-grid" id="trialGridContent">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Benefit Breakdown Bar -->
+        <div class="breakdown-card">
+          <div class="breakdown-header">
+            <div class="kpi-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Value Source Distribution
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;" id="breakdownTotalLabel">100% Value Generated</span>
+          </div>
+
+          <!-- Stacked Bar Chart -->
+          <div class="bar-container" id="breakdownBar">
+            <div class="bar-seg weight" id="barWeight" style="width: 84.5%;" title="Weight Gain"></div>
+            <div class="bar-seg mortality" id="barMortality" style="width: 15.5%;" title="Mortality Saving"></div>
+            <div class="bar-seg feed" id="barFeed" style="width: 0%;" title="Feed Saving"></div>
+            <div class="bar-seg egg" id="barEgg" style="width: 0%;" title="Egg Production"></div>
+          </div>
+
+          <!-- Interactive Legend -->
+          <div class="breakdown-legend" id="breakdownLegend">
+            <div class="legend-item" id="legendWeightItem">
+              <span class="legend-dot weight"></span>
+              <div class="legend-content">
+                <span class="legend-text">Weight Gain</span>
+                <span class="legend-val" id="legendWeightVal">₹30,000</span>
+              </div>
+            </div>
+            <div class="legend-item" id="legendMortalityItem">
+              <span class="legend-dot mortality"></span>
+              <div class="legend-content">
+                <span class="legend-text">Mortality Saved</span>
+                <span class="legend-val" id="legendMortalityVal">₹5,500</span>
+              </div>
+            </div>
+            <div class="legend-item" id="legendFeedItem" style="display: none;">
+              <span class="legend-dot feed"></span>
+              <div class="legend-content">
+                <span class="legend-text">Feed Saved</span>
+                <span class="legend-val" id="legendFeedVal">₹0</span>
+              </div>
+            </div>
+            <div class="legend-item" id="legendEggItem" style="display: none;">
+              <span class="legend-dot egg"></span>
+              <div class="legend-content">
+                <span class="legend-text">Egg Income</span>
+                <span class="legend-val" id="legendEggVal">₹0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sharing & Actions Toolbar -->
+        <div class="actions-card">
+          <div class="actions-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Commercial Field Actions
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-whatsapp" onclick="shareOnWhatsApp()" title="Send to WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.073-2.146-.532-1.854-.775-3.033-2.673-3.125-2.797-.093-.124-.75-.998-.75-1.905 0-.907.472-1.353.64-1.537.168-.184.368-.231.49-.231.123 0 .246.002.353.007.113.006.262-.043.411.314.153.368.523 1.277.569 1.37.046.092.077.2.015.323-.062.123-.093.2-.185.308-.092.108-.194.241-.277.323-.092.092-.188.192-.081.376.107.185.476.786 1.022 1.272.702.626 1.295.82 1.479.912.185.092.293.077.4-.046.108-.124.462-.538.585-.723.123-.184.247-.154.415-.092.17.062 1.077.508 1.262.6.185.092.308.138.354.215.046.077.046.446-.098.851z"/></svg>
+              WhatsApp Quote
+            </button>
+            <button type="button" class="btn btn-quote" onclick="openQuotationModal()" title="View & customize official Farmer Quotation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Farmer Quotation
+            </button>
+            <button type="button" class="btn btn-copy" onclick="copySummary()" title="Copy text summary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy Text
+            </button>
+            <button type="button" class="btn btn-print" onclick="window.print()" title="Print or save as PDF">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print / PDF
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Quotation Modal -->
+  <div class="modal-backdrop" id="quotationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Formal Farmer Proposal / Quotation</div>
+        <button class="close-btn" onclick="closeQuotationModal()">&times;</button>
+      </div>
+      <div class="quote-form-grid">
+        <div class="quote-field">
+          <label>Farmer / Farm Name</label>
+          <input type="text" id="quoteFarmerName" value="Royal Poultry Farm" placeholder="Enter farm name">
+        </div>
+        <div class="quote-field">
+          <label>Location / Shed No.</label>
+          <input type="text" id="quoteLocation" value="Shed #3 (Broiler)" placeholder="Location / batch">
+        </div>
+        <div class="quote-field">
+          <label>Prepared By</label>
+          <input type="text" id="quoteRepName" value="Technical Sales Specialist" placeholder="Executive name">
+        </div>
+        <div class="quote-field">
+          <label>Quotation Date</label>
+          <input type="text" id="quoteDate">
+        </div>
+      </div>
+
+      <table class="quote-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Field Value</th>
+          </tr>
+        </thead>
+        <tbody id="quoteTableBody">
+          <!-- Populated dynamically via JS -->
+        </tbody>
+      </table>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-copy" onclick="closeQuotationModal()">Close</button>
+        <button type="button" class="btn btn-whatsapp" onclick="shareQuotationWhatsApp()">WhatsApp Proposal</button>
+        <button type="button" class="btn btn-quote" onclick="window.print()">Print Official Proposal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMsg">Summary copied to clipboard!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Poultry Product ROI & Profit Impact Calculator &bull; 100% Offline Standalone &bull; Verified Mathematical Model from <em>ROI_Liquid & Powder.xlsx</em>
+  </footer>
+
+  <!-- Core Business Engine & Interface Logic -->
+  <script>
+    /* ── COMPREHENSIVE PRODUCT DEFINITIONS & FIELD TRIAL DATA ── */
+    const PRODUCTS = {
+      gutsol_liquid: {
+        id: "gutsol_liquid",
+        name: "Gutsol Liquid",
+        category: "Gut Health",
+        categoryGroup: "Gut Health",
+        form: "Liquid Additive",
+        desc: "Strengthens gut integrity, boosts live weight gain, and curtails early broiler mortality.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "gutsol_cost_per_bird_day", label: "Cost / Bird / Day", default: 0.03, unit: "₹/bird/day", min: 0.01, max: 0.20, step: 0.01 },
+          { id: "duration_days", label: "Duration", default: 7, unit: "days", min: 1, max: 45, step: 1 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "extra_weight_gain_g", label: "Extra Weight / Bird", default: 30, unit: "g/bird", min: 5, max: 100, step: 5 },
+          { id: "mortality_reduction_pct", label: "Mortality Reduction", default: 0.25, unit: "%", min: 0.05, max: 5.0, step: 0.05 },
+          { id: "average_bird_weight_kg", label: "Avg Bird Weight", default: 2.2, unit: "kg", min: 1.0, max: 3.5, step: 0.1 }
+        ],
+        trial: null,
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const costDay = vals.gutsol_cost_per_bird_day || 0;
+          const days = vals.duration_days || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const extraWeightG = vals.extra_weight_gain_g || 0;
+          const mortRedPct = vals.mortality_reduction_pct || 0;
+          const avgWeightKg = vals.average_bird_weight_kg || 0;
+
+          const investment = N * costDay * days;
+          const addWeightKg = (N * extraWeightG) / 1000;
+          const weightBenefit = addWeightKg * birdPrice;
+          const birdsSaved = N * (mortRedPct / 100);
+          const mortBenefit = birdsSaved * avgWeightKg * birdPrice;
+          const totalBenefit = weightBenefit + mortBenefit;
+          const netProfit = totalBenefit - investment;
+          const roi = investment > 0 ? (totalBenefit / investment) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird: N > 0 ? investment / N : 0,
+            benefitPerBird: N > 0 ? totalBenefit / N : 0,
+            netProfitPerBird: N > 0 ? netProfit / N : 0,
+            breakdown: { weight: weightBenefit, mortality: mortBenefit, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      gutsol_powder: {
+        id: "gutsol_powder",
+        name: "Gutsol Powder",
+        category: "Gut Health",
+        categoryGroup: "Gut Health",
+        form: "Powder Additive",
+        desc: "Powder gut modifier optimizing FCR with dose-per-ton feed economics.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "body_weight_kg", label: "Avg Body Weight", default: 2.3, unit: "kg", min: 1.0, max: 3.5, step: 0.1 },
+          { id: "fcr", label: "Expected FCR", default: 1.45, unit: "FCR", min: 1.10, max: 2.20, step: 0.01 },
+          { id: "dose_g_per_ton", label: "Dose Rate", default: 250, unit: "g/ton feed", min: 50, max: 1000, step: 25 },
+          { id: "product_price_per_kg", label: "Product Price", default: 600, unit: "₹/kg", min: 200, max: 1500, step: 25 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "extra_weight_gain_g", label: "Extra Weight Gain", default: 50, unit: "g/bird", min: 10, max: 150, step: 5 },
+          { id: "mortality_reduction_pct", label: "Mortality Reduction", default: 0.25, unit: "%", min: 0.05, max: 5.0, step: 0.05 },
+          { id: "average_bird_weight_kg", label: "Avg Weight Saved", default: 2.3, unit: "kg", min: 1.0, max: 3.5, step: 0.1 }
+        ],
+        trial: null,
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const bw = vals.body_weight_kg || 0;
+          const fcr = vals.fcr || 0;
+          const doseG = vals.dose_g_per_ton || 0;
+          const prodPrice = vals.product_price_per_kg || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const extraWeightG = vals.extra_weight_gain_g || 0;
+          const mortRedPct = vals.mortality_reduction_pct || 0;
+          const avgWeightKg = vals.average_bird_weight_kg || 0;
+
+          const feedConsumptionKg = N * bw * fcr;
+          const gutsolRequiredKg = (feedConsumptionKg * doseG) / 1000000;
+          const investment = gutsolRequiredKg * prodPrice;
+          const addWeightKg = (N * extraWeightG) / 1000;
+          const weightBenefit = addWeightKg * birdPrice;
+          const birdsSaved = N * (mortRedPct / 100);
+          const mortBenefit = birdsSaved * avgWeightKg * birdPrice;
+          const totalBenefit = weightBenefit + mortBenefit;
+          const netProfit = totalBenefit - investment;
+          const roi = investment > 0 ? (totalBenefit / investment) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird: N > 0 ? investment / N : 0,
+            benefitPerBird: N > 0 ? totalBenefit / N : 0,
+            netProfitPerBird: N > 0 ? netProfit / N : 0,
+            breakdown: { weight: weightBenefit, mortality: mortBenefit, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      colikil_liquid: {
+        id: "colikil_liquid",
+        name: "Colikil Liquid",
+        category: "Gut Health",
+        categoryGroup: "Gut Health",
+        form: "Liquid Medication",
+        desc: "Comprehensive water sanitation & gut protection enhancing broiler weight gain.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "product_price_per_liter", label: "Product Price", default: 1800, unit: "₹/L", min: 500, max: 3500, step: 50 },
+          { id: "medication_hours_day", label: "Medication Hours", default: 12, unit: "hours/day", min: 1, max: 24, step: 1 },
+          { id: "treatment_days", label: "Treatment Days", default: 20, unit: "days", min: 1, max: 45, step: 1 },
+          { id: "water_intake_l_per_day", label: "Water Intake", default: 0.2, unit: "L/bird/day", min: 0.05, max: 0.6, step: 0.05 },
+          { id: "dose_l_per_ml", label: "Dose Ratio", default: 2, unit: "L water / 1 mL", min: 0.5, max: 5.0, step: 0.5 },
+          { id: "extra_weight_gain_kg", label: "Extra Weight Gain", default: 0.445, unit: "kg/bird", min: 0.05, max: 0.9, step: 0.025 }
+        ],
+        trial: null,
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const prodPrice = vals.product_price_per_liter || 0;
+          const hours = vals.medication_hours_day || 0;
+          const days = vals.treatment_days || 0;
+          const waterPerDay = vals.water_intake_l_per_day || 0;
+          const doseRatio = vals.dose_l_per_ml || 1;
+          const extraBw = vals.extra_weight_gain_kg || 0;
+
+          const waterMed = (waterPerDay * hours * days) / 24;
+          const prodUsedMl = waterMed / doseRatio;
+          const costPerBird = (prodUsedMl / 1000) * prodPrice;
+          const addIncomePerBird = extraBw * birdPrice;
+          const netProfitPerBird = addIncomePerBird - costPerBird;
+
+          const investment = costPerBird * N;
+          const totalBenefit = addIncomePerBird * N;
+          const netProfit = totalBenefit - investment;
+          const roi = costPerBird > 0 ? (addIncomePerBird / costPerBird) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird,
+            benefitPerBird: addIncomePerBird,
+            netProfitPerBird,
+            breakdown: { weight: totalBenefit, mortality: 0, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      colikil_r: {
+        id: "colikil_r",
+        name: "Colikil-R Powder",
+        category: "Feed Efficiency",
+        categoryGroup: "Feed & Growth",
+        form: "Powder Additive",
+        desc: "FCR optimizer yielding direct feed cost savings and superior broiler weight.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "feed_price_per_kg", label: "Feed Price", default: 40, unit: "₹/kg", min: 20, max: 70, step: 1 },
+          { id: "product_price_per_kg", label: "Product Price", default: 750, unit: "₹/kg", min: 200, max: 1500, step: 25 },
+          { id: "control_body_weight_kg", label: "Control BW", default: 1.911, unit: "kg", min: 1.0, max: 3.5, step: 0.01 },
+          { id: "treatment_body_weight_kg", label: "Treatment BW", default: 1.975, unit: "kg", min: 1.0, max: 3.5, step: 0.01 },
+          { id: "control_fcr", label: "Control FCR", default: 1.626, unit: "FCR", min: 1.2, max: 2.2, step: 0.01 },
+          { id: "treatment_fcr", label: "Treatment FCR", default: 1.564, unit: "FCR", min: 1.2, max: 2.2, step: 0.01 },
+          { id: "dose_g_per_ton", label: "Dose Rate", default: 150, unit: "g/ton feed", min: 50, max: 500, step: 25 }
+        ],
+        trial: {
+          controlLabel: "Control (Standard Feed)",
+          treatmentLabel: "Colikil-R (150g/ton)",
+          controlMetrics: [ { label: "Body Weight", val: "1.911 kg" }, { label: "Feed Conversion (FCR)", val: "1.626" } ],
+          treatmentMetrics: [ { label: "Body Weight", val: "1.975 kg (+64g)" }, { label: "Feed Conversion (FCR)", val: "1.564 (-0.062 FCR)" } ]
+        },
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const feedPrice = vals.feed_price_per_kg || 0;
+          const prodPrice = vals.product_price_per_kg || 0;
+          const cBw = vals.control_body_weight_kg || 0;
+          const tBw = vals.treatment_body_weight_kg || 0;
+          const cFcr = vals.control_fcr || 0;
+          const tFcr = vals.treatment_fcr || 0;
+          const doseG = vals.dose_g_per_ton || 0;
+
+          const extraBw = tBw - cBw;
+          const addIncomePerBird = extraBw * birdPrice;
+          const cFeed = cBw * cFcr;
+          const tFeed = tBw * tFcr;
+          const feedSavedPerBird = cFeed - tFeed;
+          const feedSavingPerBird = feedSavedPerBird * feedPrice;
+
+          const costPerTon = (doseG / 1000) * prodPrice;
+          const costPerBird = (tFeed / 1000) * costPerTon;
+          const benefitPerBird = addIncomePerBird + feedSavingPerBird;
+          const netProfitPerBird = benefitPerBird - costPerBird;
+
+          const investment = costPerBird * N;
+          const weightBenefit = addIncomePerBird * N;
+          const feedBenefit = feedSavingPerBird * N;
+          const totalBenefit = benefitPerBird * N;
+          const netProfit = totalBenefit - investment;
+          const roi = costPerBird > 0 ? (netProfitPerBird / costPerBird) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird,
+            benefitPerBird,
+            netProfitPerBird,
+            breakdown: { weight: weightBenefit, mortality: 0, feed: feedBenefit, egg: 0 }
+          };
+        }
+      },
+
+      immon_broiler: {
+        id: "immon_broiler",
+        name: "Immon Broiler",
+        category: "Broiler",
+        categoryGroup: "Feed & Growth",
+        form: "Powder Additive",
+        desc: "Immunomodulator maximizing broiler body weight gain & saving bird mortality.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "immon_cost_per_bird_day", label: "Cost of Immon", default: 1.52, unit: "paise/bird/day", min: 0.5, max: 5.0, step: 0.1 },
+          { id: "trial_duration_days", label: "Trial Duration", default: 35, unit: "days", min: 7, max: 45, step: 1 },
+          { id: "control_body_weight_kg", label: "Control BW", default: 2.05, unit: "kg", min: 1.0, max: 3.5, step: 0.05 },
+          { id: "treatment_body_weight_kg", label: "Treatment BW", default: 2.15, unit: "kg", min: 1.0, max: 3.5, step: 0.05 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "control_mortality_pct", label: "Control Mortality", default: 5.0, unit: "%", min: 0.5, max: 15.0, step: 0.1 },
+          { id: "treatment_mortality_pct", label: "Treatment Mortality", default: 4.0, unit: "%", min: 0.5, max: 15.0, step: 0.1 }
+        ],
+        trial: {
+          controlLabel: "Control Group (No Immon)",
+          treatmentLabel: "Immon Broiler Group",
+          controlMetrics: [ { label: "Body Weight", val: "2.050 kg" }, { label: "Mortality Rate", val: "5.00%" } ],
+          treatmentMetrics: [ { label: "Body Weight", val: "2.150 kg (+100g)" }, { label: "Mortality Rate", val: "4.00% (-1.00% saved)" } ]
+        },
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const costPaise = vals.immon_cost_per_bird_day || 0;
+          const days = vals.trial_duration_days || 0;
+          const cBw = vals.control_body_weight_kg || 0;
+          const tBw = vals.treatment_body_weight_kg || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const cMort = vals.control_mortality_pct || 0;
+          const tMort = vals.treatment_mortality_pct || 0;
+
+          const extraBw = tBw - cBw;
+          const costPerBird = (costPaise * days) / 100;
+          const addIncomePerBird = extraBw * birdPrice;
+          const mortRedPct = cMort - tMort;
+          const mortSavingPerBird = (mortRedPct / 100) * tBw * birdPrice;
+          const benefitPerBird = addIncomePerBird + mortSavingPerBird;
+          const netProfitPerBird = benefitPerBird - costPerBird;
+
+          const investment = costPerBird * N;
+          const weightBenefit = addIncomePerBird * N;
+          const mortBenefit = mortSavingPerBird * N;
+          const totalBenefit = benefitPerBird * N;
+          const netProfit = totalBenefit - investment;
+          const roi = costPerBird > 0 ? (netProfitPerBird / costPerBird) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird,
+            benefitPerBird,
+            netProfitPerBird,
+            breakdown: { weight: weightBenefit, mortality: mortBenefit, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      immon_layer: {
+        id: "immon_layer",
+        name: "Immon Layer",
+        category: "Layer",
+        categoryGroup: "Layer",
+        form: "Powder Additive",
+        desc: "Hen-Day Production (HDP) enhancer extending peak lay and saving valuable layer birds.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "layers", min: 500, max: 200000, step: 1000 },
+          { id: "trial_duration_days", label: "Trial Duration", default: 266, unit: "days", min: 30, max: 400, step: 7 },
+          { id: "egg_production_control_pct", label: "Control HDP", default: 89.19, unit: "%", min: 70.0, max: 98.0, step: 0.1 },
+          { id: "egg_production_treatment_pct", label: "Treatment HDP", default: 91.66, unit: "%", min: 70.0, max: 98.0, step: 0.1 },
+          { id: "egg_selling_price", label: "Egg Selling Price", default: 5.60, unit: "₹/egg", min: 3.0, max: 10.0, step: 0.1 },
+          { id: "product_cost_per_bird_day", label: "Cost / Layer / Day", default: 0.0152, unit: "₹/bird/day", min: 0.005, max: 0.05, step: 0.001 },
+          { id: "mortality_saved_pct", label: "Mortality Saved", default: 0.75, unit: "%", min: 0.1, max: 3.0, step: 0.05 },
+          { id: "value_per_layer", label: "Value per Layer", default: 350, unit: "₹/bird", min: 200, max: 600, step: 25 }
+        ],
+        trial: {
+          controlLabel: "Control Flock (Standard Layer Feed)",
+          treatmentLabel: "Immon Layer Supplemented Flock",
+          controlMetrics: [ { label: "Hen-Day Production", val: "89.19%" }, { label: "Trial Period", val: "266 Days" } ],
+          treatmentMetrics: [ { label: "Hen-Day Production", val: "91.66% (+2.47%)" }, { label: "Flock Mortality Saved", val: "0.75% Protection" } ]
+        },
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const days = vals.trial_duration_days || 0;
+          const hdpCtrl = vals.egg_production_control_pct || 0;
+          const hdpTrt = vals.egg_production_treatment_pct || 0;
+          const eggPrice = vals.egg_selling_price || 0;
+          const costDay = vals.product_cost_per_bird_day || 0;
+          const mortSavedPct = vals.mortality_saved_pct || 0;
+          const layerVal = vals.value_per_layer || 0;
+
+          const hdpDiff = hdpTrt - hdpCtrl;
+          const extraEggsPerDay = N * (hdpDiff / 100);
+          const totalExtraEggs = extraEggsPerDay * days;
+          const eggBenefit = totalExtraEggs * eggPrice;
+          const costPerBird = costDay * days;
+          const investment = costPerBird * N;
+          const mortBenefit = (mortSavedPct / 100) * N * layerVal;
+          const totalBenefit = eggBenefit + mortBenefit;
+          const netProfit = totalBenefit - investment;
+          const roi = investment > 0 ? (netProfit / investment) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird: N > 0 ? investment / N : 0,
+            benefitPerBird: N > 0 ? totalBenefit / N : 0,
+            netProfitPerBird: N > 0 ? netProfit / N : 0,
+            breakdown: { weight: 0, mortality: mortBenefit, feed: 0, egg: eggBenefit }
+          };
+        }
+      },
+
+      crdx_ir: {
+        id: "crdx_ir",
+        name: "CRDX-IR Liquid",
+        category: "Respiratory",
+        categoryGroup: "Water & Stress",
+        form: "Liquid Medication",
+        desc: "Respiratory support combating CRD, curbing flock mortality & lifting body weight.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 10000, unit: "birds", min: 100, max: 100000, step: 500 },
+          { id: "live_bird_price", label: "Live Bird Price", default: 100, unit: "₹/kg", min: 50, max: 200, step: 5 },
+          { id: "product_price_per_liter", label: "CRDX-IR Price", default: 4400, unit: "₹/L", min: 1000, max: 7000, step: 100 },
+          { id: "dose_ml_per_1000_birds_day", label: "Dose Rate", default: 10, unit: "mL / 1000 birds/day", min: 2, max: 30, step: 1 },
+          { id: "treatment_days", label: "Treatment Days", default: 42, unit: "days", min: 7, max: 45, step: 1 },
+          { id: "control_body_weight_kg", label: "Control BW", default: 2.738, unit: "kg", min: 1.5, max: 3.8, step: 0.05 },
+          { id: "treatment_body_weight_kg", label: "Treatment BW", default: 2.806, unit: "kg", min: 1.5, max: 3.8, step: 0.05 },
+          { id: "control_mortality_pct", label: "Control Mortality", default: 4.0, unit: "%", min: 0.5, max: 15.0, step: 0.1 },
+          { id: "treatment_mortality_pct", label: "Treatment Mortality", default: 1.67, unit: "%", min: 0.5, max: 15.0, step: 0.1 }
+        ],
+        trial: {
+          controlLabel: "Control Flock (Respiratory Challenge)",
+          treatmentLabel: "CRDX-IR Protected Flock",
+          controlMetrics: [ { label: "Body Weight", val: "2.738 kg" }, { label: "Mortality Rate", val: "4.00%" } ],
+          treatmentMetrics: [ { label: "Body Weight", val: "2.806 kg (+68g)" }, { label: "Mortality Rate", val: "1.67% (-2.33% saved)" } ]
+        },
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const birdPrice = vals.live_bird_price || 0;
+          const prodPrice = vals.product_price_per_liter || 0;
+          const dose = vals.dose_ml_per_1000_birds_day || 0;
+          const days = vals.treatment_days || 0;
+          const cBw = vals.control_body_weight_kg || 0;
+          const tBw = vals.treatment_body_weight_kg || 0;
+          const cMort = vals.control_mortality_pct || 0;
+          const tMort = vals.treatment_mortality_pct || 0;
+
+          const extraBw = tBw - cBw;
+          const addIncomePerBird = extraBw * birdPrice;
+          const mortRedPct = cMort - tMort;
+          const mortBenefitPerBird = (mortRedPct / 100) * tBw * birdPrice;
+          const benefitPerBird = addIncomePerBird + mortBenefitPerBird;
+
+          const prodUsedMl = (dose / 1000) * days;
+          const costPerBird = prodUsedMl * (prodPrice / 1000);
+          const netProfitPerBird = benefitPerBird - costPerBird;
+
+          const investment = costPerBird * N;
+          const weightBenefit = addIncomePerBird * N;
+          const mortBenefit = mortBenefitPerBird * N;
+          const totalBenefit = benefitPerBird * N;
+          const netProfit = totalBenefit - investment;
+          const roi = costPerBird > 0 ? (netProfitPerBird / costPerBird) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird,
+            benefitPerBird,
+            netProfitPerBird,
+            breakdown: { weight: weightBenefit, mortality: mortBenefit, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      thermogard_prevention: {
+        id: "thermogard_prevention",
+        name: "Thermogard Prevention",
+        category: "Water Medication",
+        categoryGroup: "Water & Stress",
+        form: "Liquid Additive",
+        desc: "Heat stress preventive program maintaining broiler vitality and saving mortality.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 1000, unit: "birds", min: 100, max: 100000, step: 250 },
+          { id: "treatment_days", label: "Treatment Days", default: 15, unit: "days", min: 3, max: 40, step: 1 },
+          { id: "preventive_dose_ml", label: "Preventive Dose", default: 30, unit: "mL/day", min: 5, max: 120, step: 5 },
+          { id: "product_price_per_liter", label: "Thermogard Price", default: 1000, unit: "₹/L", min: 400, max: 2500, step: 50 },
+          { id: "mortality_saving_value", label: "Mortality Saving Value", default: 4400, unit: "₹ (total)", min: 500, max: 50000, step: 100 }
+        ],
+        trial: null,
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const days = vals.treatment_days || 0;
+          const doseMl = vals.preventive_dose_ml || 0;
+          const prodPrice = vals.product_price_per_liter || 0;
+          const mortSaving = vals.mortality_saving_value || 0;
+
+          const totalDoseMl = doseMl * days;
+          const prodLiters = totalDoseMl / 1000;
+          const investment = prodLiters * prodPrice;
+          const totalBenefit = mortSaving;
+          const netProfit = totalBenefit - investment;
+          const roi = investment > 0 ? (totalBenefit / investment) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird: N > 0 ? investment / N : 0,
+            benefitPerBird: N > 0 ? totalBenefit / N : 0,
+            netProfitPerBird: N > 0 ? netProfit / N : 0,
+            breakdown: { weight: 0, mortality: mortSaving, feed: 0, egg: 0 }
+          };
+        }
+      },
+
+      thermogard_treatment: {
+        id: "thermogard_treatment",
+        name: "Thermogard Treatment",
+        category: "Water Medication",
+        categoryGroup: "Water & Stress",
+        form: "Liquid Additive",
+        desc: "High-dose emergency heat stress intervention preventing severe flock heat death.",
+        inputs: [
+          { id: "flock_size", label: "Flock Size", default: 1000, unit: "birds", min: 100, max: 100000, step: 250 },
+          { id: "treatment_days", label: "Treatment Days", default: 15, unit: "days", min: 3, max: 40, step: 1 },
+          { id: "treatment_dose_ml", label: "Treatment Dose", default: 60, unit: "mL/day", min: 10, max: 200, step: 5 },
+          { id: "product_price_per_liter", label: "Thermogard Price", default: 1000, unit: "₹/L", min: 400, max: 2500, step: 50 },
+          { id: "mortality_saving_value", label: "Mortality Saving Value", default: 7200, unit: "₹ (total)", min: 1000, max: 75000, step: 200 }
+        ],
+        trial: null,
+        calculate: function(vals) {
+          const N = vals.flock_size || 0;
+          const days = vals.treatment_days || 0;
+          const doseMl = vals.treatment_dose_ml || 0;
+          const prodPrice = vals.product_price_per_liter || 0;
+          const mortSaving = vals.mortality_saving_value || 0;
+
+          const totalDoseMl = doseMl * days;
+          const prodLiters = totalDoseMl / 1000;
+          const investment = prodLiters * prodPrice;
+          const totalBenefit = mortSaving;
+          const netProfit = totalBenefit - investment;
+          const roi = investment > 0 ? (totalBenefit / investment) : 0;
+
+          return {
+            flockSize: N,
+            investment,
+            totalBenefit,
+            netProfit,
+            roi,
+            costPerBird: N > 0 ? investment / N : 0,
+            benefitPerBird: N > 0 ? totalBenefit / N : 0,
+            netProfitPerBird: N > 0 ? netProfit / N : 0,
+            breakdown: { weight: 0, mortality: mortSaving, feed: 0, egg: 0 }
+          };
+        }
+      }
+    };
+
+    /* ── APPLICATION STATE ── */
+    let currentProductId = "gutsol_liquid";
+    let currentCategoryFilter = "all";
+    let currentScenario = "baseline"; // baseline, conservative (-10%), optimistic (+10%)
+    let currentCalculation = null;
+
+    /* ── FORMATTING UTILITIES ── */
+    function formatCurrency(num) {
+      if (isNaN(num) || num === null || num === undefined) return "₹0";
+      const absVal = Math.abs(num);
+      const isNeg = num < 0;
+      const formatted = absVal.toLocaleString("en-IN", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 0
+      });
+      return (isNeg ? "-₹" : "₹") + formatted;
+    }
+
+    function formatNumber(num, decimals = 2) {
+      if (isNaN(num) || num === null || num === undefined) return "0";
+      return Number(num).toLocaleString("en-IN", {
+        maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals > 0 && num % 1 !== 0 ? 2 : 0
+      });
+    }
+
+    /* ── INITIALIZATION ── */
+    function init() {
+      // Ensure bright theme is active (NO black/dark theme)
+      document.documentElement.setAttribute("data-theme", "light");
+      try {
+        localStorage.removeItem("poultry_calc_theme");
+      } catch (e) {}
+
+      // Restore saved palette or default to Amber
+      let savedPalette = "amber";
+      try {
+        savedPalette = localStorage.getItem("poultry_calc_palette") || "amber";
+      } catch (e) {}
+      setPalette(savedPalette);
+
+      // Set default quotation date
+      const today = new Date().toISOString().slice(0, 10);
+      const dateEl = document.getElementById("quoteDate");
+      if (dateEl) dateEl.value = today;
+
+      renderProductCards();
+      selectProduct(currentProductId);
+    }
+
+    /* ── PALETTE SWITCHING ── */
+    function setPalette(pal) {
+      document.documentElement.setAttribute("data-palette", pal);
+      try {
+        localStorage.setItem("poultry_calc_palette", pal);
+      } catch (e) {}
+
+      // Update active state in palette buttons
+      document.querySelectorAll(".palette-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-palette-val") === pal);
+      });
+      showToast(`Palette switched to ${pal.charAt(0).toUpperCase() + pal.slice(1)}`);
+    }
+
+    /* ── CATEGORY FILTERING ── */
+    function filterCategory(cat, tabEl) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
+      if (tabEl) tabEl.classList.add("active");
+      renderProductCards();
+    }
+
+    /* ── RENDER PRODUCT CARDS GRID ── */
+    function renderProductCards() {
+      const container = document.getElementById("productCardsGrid");
+      container.innerHTML = "";
+
+      Object.keys(PRODUCTS).forEach(key => {
+        const prod = PRODUCTS[key];
+        if (currentCategoryFilter !== "all" && prod.categoryGroup !== currentCategoryFilter) {
+          return;
+        }
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `product-card-btn ${key === currentProductId ? "active" : ""}`;
+        btn.id = `card_${key}`;
+        btn.onclick = () => selectProduct(key);
+        btn.innerHTML = `
+          <div class="product-card-title">
+            <span>${prod.name}</span>
+            <span class="form-pill">${prod.form.includes("Liquid") ? "💧 Liquid" : "🌾 Powder"}</span>
+          </div>
+          <div class="product-card-meta">
+            <span>${prod.category}</span>
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    /* ── SELECT PRODUCT ── */
+    function selectProduct(prodId) {
+      if (!PRODUCTS[prodId]) return;
+      currentProductId = prodId;
+
+      // Update card active classes
+      document.querySelectorAll(".product-card-btn").forEach(c => c.classList.remove("active"));
+      const activeCard = document.getElementById(`card_${prodId}`);
+      if (activeCard) activeCard.classList.add("active");
+
+      const prod = PRODUCTS[prodId];
+      document.getElementById("productCategoryBadge").innerText = `${prod.category} • ${prod.form}`;
+      document.getElementById("productDesc").innerText = prod.desc;
+      document.getElementById("heroProductBadge").innerText = prod.name;
+
+      // Show/hide flock presets row
+      const hasFlock = prod.inputs.some(inp => inp.id === "flock_size");
+      document.getElementById("flockPresetRow").style.display = hasFlock ? "flex" : "none";
+
+      // Render trial comparison card if trial data exists
+      renderTrialCard(prod);
+
+      // Reset scenario to baseline
+      setScenarioButtons("baseline");
+
+      // Render inputs form
+      renderInputs(prod);
+      recalculate();
+    }
+
+    /* ── RENDER CONTROL VS TREATMENT TRIAL CARD ── */
+    function renderTrialCard(prod) {
+      const card = document.getElementById("trialComparisonCard");
+      const container = document.getElementById("trialGridContent");
+      if (!prod.trial) {
+        card.style.display = "none";
+        return;
+      }
+
+      card.style.display = "block";
+      const t = prod.trial;
+      container.innerHTML = `
+        <div class="trial-box">
+          <div class="trial-box-title">${t.controlLabel}</div>
+          ${t.controlMetrics.map(m => `
+            <div style="margin-bottom: 6px;">
+              <div class="trial-box-sub">${m.label}</div>
+              <div class="trial-box-metric" style="color: var(--text-muted);">${m.val}</div>
+            </div>
+          `).join("")}
+        </div>
+        <div class="trial-box treatment">
+          <div class="trial-box-title">${t.treatmentLabel}</div>
+          ${t.treatmentMetrics.map(m => `
+            <div style="margin-bottom: 6px;">
+              <div class="trial-box-sub">${m.label}</div>
+              <div class="trial-box-metric" style="color: var(--emerald);">${m.val}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    /* ── RENDER INPUTS WITH DUAL SLIDER & STEPPERS ── */
+    function renderInputs(prod) {
+      const form = document.getElementById("inputsForm");
+      form.innerHTML = "";
+
+      prod.inputs.forEach(inp => {
+        const card = document.createElement("div");
+        card.className = "input-row-card";
+
+        const minVal = inp.min !== undefined ? inp.min : 0;
+        const maxVal = inp.max !== undefined ? inp.max : (inp.default * 3 || 100);
+        const stepVal = inp.step !== undefined ? inp.step : 1;
+
+        card.innerHTML = `
+          <div class="input-header">
+            <label class="input-title" for="num_${inp.id}">${inp.label}</label>
+            <span class="input-unit-tag">${inp.unit}</span>
+          </div>
+          <div class="input-field-container">
+            <button type="button" class="step-btn" onclick="stepValue('${inp.id}', -1)" title="Decrease">-</button>
+            <input type="number" class="num-input" id="num_${inp.id}" name="${inp.id}" value="${inp.default}" min="${minVal}" max="${maxVal}" step="${stepVal}">
+            <button type="button" class="step-btn" onclick="stepValue('${inp.id}', 1)" title="Increase">+</button>
+          </div>
+          <div class="range-slider-wrap">
+            <input type="range" class="range-slider" id="range_${inp.id}" min="${minVal}" max="${maxVal}" step="${stepVal}" value="${inp.default}">
+          </div>
+        `;
+
+        form.appendChild(card);
+
+        const numEl = card.querySelector(`#num_${inp.id}`);
+        const rangeEl = card.querySelector(`#range_${inp.id}`);
+
+        // Sync Number -> Slider & Recalculate
+        numEl.addEventListener("input", () => {
+          rangeEl.value = numEl.value;
+          recalculate();
+        });
+
+        // Sync Slider -> Number & Recalculate
+        rangeEl.addEventListener("input", () => {
+          numEl.value = rangeEl.value;
+          recalculate();
+        });
+      });
+    }
+
+    /* ── STEP VALUE BUTTONS (+ / -) ── */
+    function stepValue(inpId, direction) {
+      const numEl = document.getElementById(`num_${inpId}`);
+      const rangeEl = document.getElementById(`range_${inpId}`);
+      if (!numEl) return;
+
+      const step = parseFloat(numEl.step) || 1;
+      let val = parseFloat(numEl.value) || 0;
+      val += direction * step;
+
+      const min = parseFloat(numEl.min);
+      const max = parseFloat(numEl.max);
+      if (!isNaN(min) && val < min) val = min;
+      if (!isNaN(max) && val > max) val = max;
+
+      const decimals = (step.toString().split(".")[1] || "").length;
+      numEl.value = decimals > 0 ? val.toFixed(decimals) : val;
+      if (rangeEl) rangeEl.value = numEl.value;
+
+      recalculate();
+    }
+
+    /* ── GET FORM VALUES ── */
+    function getFormValues() {
+      const prod = PRODUCTS[currentProductId];
+      const vals = {};
+      prod.inputs.forEach(inp => {
+        const el = document.getElementById(`num_${inp.id}`);
+        vals[inp.id] = el ? parseFloat(el.value) || 0 : inp.default;
+      });
+      return vals;
+    }
+
+    /* ── FLOCK PRESETS ── */
+    function applyFlockPreset(size) {
+      const el = document.getElementById("num_flock_size");
+      const range = document.getElementById("range_flock_size");
+      if (el) {
+        el.value = size;
+        if (range) range.value = size;
+        recalculate();
+        showToast(`Flock set to ${size.toLocaleString()} birds`);
+      }
+    }
+
+    /* ── SCENARIO SIMULATOR ── */
+    function applyScenario(type) {
+      currentScenario = type;
+      setScenarioButtons(type);
+      recalculate();
+    }
+
+    function setScenarioButtons(type) {
+      currentScenario = type;
+      ["scenCons", "scenBase", "scenOpt"].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.classList.remove("active");
+      });
+      const badge = document.getElementById("heroScenarioBadge");
+
+      if (type === "conservative") {
+        document.getElementById("scenCons").classList.add("active");
+        if (badge) { badge.innerText = "Conservative (-10%)"; badge.style.color = "#B45309"; }
+      } else if (type === "optimistic") {
+        document.getElementById("scenOpt").classList.add("active");
+        if (badge) { badge.innerText = "Optimistic (+10%)"; badge.style.color = "#047857"; }
+      } else {
+        document.getElementById("scenBase").classList.add("active");
+        if (badge) { badge.innerText = "Baseline"; badge.style.color = "inherit"; }
+      }
+    }
+
+    /* ── RESET CURRENT PRODUCT TO DEFAULTS ── */
+    function resetCurrentProductDefaults() {
+      const prod = PRODUCTS[currentProductId];
+      prod.inputs.forEach(inp => {
+        const numEl = document.getElementById(`num_${inp.id}`);
+        const rangeEl = document.getElementById(`range_${inp.id}`);
+        if (numEl) numEl.value = inp.default;
+        if (rangeEl) rangeEl.value = inp.default;
+      });
+      setScenarioButtons("baseline");
+      recalculate();
+      showToast(`${prod.name} defaults restored!`);
+    }
+
+    /* ── RECALCULATE FINANCIAL IMPACT ── */
+    function recalculate() {
+      const prod = PRODUCTS[currentProductId];
+      const vals = getFormValues();
+      const res = prod.calculate(vals);
+
+      // Apply Scenario Multiplier if not baseline
+      let scenarioMultiplier = 1.0;
+      if (currentScenario === "conservative") scenarioMultiplier = 0.90;
+      if (currentScenario === "optimistic") scenarioMultiplier = 1.10;
+
+      const adjustedTotalBenefit = res.totalBenefit * scenarioMultiplier;
+      const adjustedNetProfit = adjustedTotalBenefit - res.investment;
+      const adjustedRoi = res.investment > 0 ? (adjustedTotalBenefit / res.investment) : 0;
+      const adjustedBenefitPerBird = res.flockSize > 0 ? (adjustedTotalBenefit / res.flockSize) : 0;
+      const adjustedNetProfitPerBird = res.flockSize > 0 ? (adjustedNetProfit / res.flockSize) : 0;
+
+      // Scaled breakdown
+      const breakdown = {
+        weight: (res.breakdown.weight || 0) * scenarioMultiplier,
+        mortality: (res.breakdown.mortality || 0) * scenarioMultiplier,
+        feed: (res.breakdown.feed || 0) * scenarioMultiplier,
+        egg: (res.breakdown.egg || 0) * scenarioMultiplier
+      };
+
+      currentCalculation = {
+        product: prod,
+        values: vals,
+        scenario: currentScenario,
+        results: {
+          ...res,
+          totalBenefit: adjustedTotalBenefit,
+          netProfit: adjustedNetProfit,
+          roi: adjustedRoi,
+          benefitPerBird: adjustedBenefitPerBird,
+          netProfitPerBird: adjustedNetProfitPerBird,
+          breakdown
+        }
+      };
+
+      // Hero KPI
+      const roiText = adjustedRoi > 0 ? adjustedRoi.toFixed(2) + "x" : "0.00x";
+      document.getElementById("heroRoiVal").innerText = roiText;
+      document.getElementById("heroNetProfit").innerText = formatCurrency(adjustedNetProfit);
+
+      if (adjustedNetProfit >= 0) {
+        document.getElementById("heroNetProfit").style.color = "#059669";
+        document.getElementById("heroSubtext").innerText = `Total financial gain generated over an investment of ${formatCurrency(res.investment)}.`;
+      } else {
+        document.getElementById("heroNetProfit").style.color = "#DC2626";
+        document.getElementById("heroSubtext").innerText = "Net financial loss under the specified field inputs.";
+      }
+
+      // 4 Metric KPI Cards
+      document.getElementById("kpiInvestment").innerText = formatCurrency(res.investment);
+      document.getElementById("kpiCostPerBird").innerText = `${formatCurrency(res.costPerBird)} / bird`;
+
+      document.getElementById("kpiBenefit").innerText = formatCurrency(adjustedTotalBenefit);
+      document.getElementById("kpiBenefitPerBird").innerText = `${formatCurrency(adjustedBenefitPerBird)} / bird`;
+
+      document.getElementById("kpiNetPerBird").innerText = formatCurrency(adjustedNetProfitPerBird);
+      if (res.flockSize > 0) {
+        document.getElementById("kpiFlockSizeInfo").innerText = `Flock: ${res.flockSize.toLocaleString()} birds`;
+      } else {
+        document.getElementById("kpiFlockSizeInfo").innerText = "Commercial assessment";
+      }
+
+      const multPct = res.investment > 0 ? ((adjustedNetProfit / res.investment) * 100) : 0;
+      document.getElementById("kpiMultiplier").innerText = `${multPct >= 0 ? "+" : ""}${formatNumber(multPct, 0)}%`;
+      document.getElementById("kpiRatioSub").innerText = `${formatNumber(adjustedRoi, 2)}:1 Return Ratio`;
+
+      // Breakdown Bar & Legend
+      updateBreakdownBar(adjustedTotalBenefit, breakdown);
+    }
+
+    /* ── BREAKDOWN BAR & LEGEND ── */
+    function updateBreakdownBar(totalBenefit, b) {
+      const tot = totalBenefit > 0 ? totalBenefit : 1;
+      const wPct = Math.max(0, (b.weight / tot) * 100);
+      const mPct = Math.max(0, (b.mortality / tot) * 100);
+      const fPct = Math.max(0, (b.feed / tot) * 100);
+      const ePct = Math.max(0, (b.egg / tot) * 100);
+
+      document.getElementById("barWeight").style.width = `${wPct}%`;
+      document.getElementById("barMortality").style.width = `${mPct}%`;
+      document.getElementById("barFeed").style.width = `${fPct}%`;
+      document.getElementById("barEgg").style.width = `${ePct}%`;
+
+      document.getElementById("legendWeightVal").innerText = formatCurrency(b.weight);
+      document.getElementById("legendMortalityVal").innerText = formatCurrency(b.mortality);
+      document.getElementById("legendFeedVal").innerText = formatCurrency(b.feed);
+      document.getElementById("legendEggVal").innerText = formatCurrency(b.egg);
+
+      document.getElementById("legendWeightItem").style.display = b.weight > 0 ? "flex" : "none";
+      document.getElementById("legendMortalityItem").style.display = b.mortality > 0 ? "flex" : "none";
+      document.getElementById("legendFeedItem").style.display = b.feed > 0 ? "flex" : "none";
+      document.getElementById("legendEggItem").style.display = b.egg > 0 ? "flex" : "none";
+
+      document.getElementById("breakdownTotalLabel").innerText = `Total Benefit: ${formatCurrency(totalBenefit)}`;
+    }
+
+    /* ── QUOTATION MODAL HANDLING ── */
+    function openQuotationModal() {
+      if (!currentCalculation) recalculate();
+      const calc = currentCalculation;
+      const body = document.getElementById("quoteTableBody");
+      body.innerHTML = `
+        <tr><td><strong>Product Name</strong></td><td><strong>${calc.product.name} (${calc.product.form})</strong></td></tr>
+        <tr><td>Target Flock Size</td><td>${calc.results.flockSize.toLocaleString()} birds</td></tr>
+        <tr><td>Total Product Cost (Investment)</td><td>${formatCurrency(calc.results.investment)} (${formatCurrency(calc.results.costPerBird)} / bird)</td></tr>
+        <tr><td>Gross Economic Benefit</td><td>${formatCurrency(calc.results.totalBenefit)} (${formatCurrency(calc.results.benefitPerBird)} / bird)</td></tr>
+        <tr style="background: #ECFDF5;">
+          <td><strong>Estimated Net Profit Gain</strong></td>
+          <td><strong style="color: #059669; font-size: 1.05rem;">${formatCurrency(calc.results.netProfit)}</strong> (${formatCurrency(calc.results.netProfitPerBird)} / bird)</td>
+        </tr>
+        <tr><td>Benefit-to-Cost ROI</td><td><strong>${calc.results.roi.toFixed(2)}x</strong> Return</td></tr>
+        <tr><td>Scenario Basis</td><td>${currentScenario.toUpperCase()}</td></tr>
+      `;
+      document.getElementById("quotationModal").classList.add("open");
+    }
+
+    function closeQuotationModal() {
+      document.getElementById("quotationModal").classList.remove("open");
+    }
+
+    /* ── WHATSAPP SUMMARY GENERATOR ── */
+    function generateSummaryText(farmerName = "", location = "") {
+      if (!currentCalculation) recalculate();
+      const c = currentCalculation;
+      const p = c.product;
+      const r = c.results;
+
+      let txt = `🐔 *POULTRY PRODUCT ROI & PROFIT ASSESSMENT*\n`;
+      if (farmerName) txt += `👤 *Client / Farm:* ${farmerName}\n`;
+      if (location) txt += `📍 *Location:* ${location}\n`;
+      txt += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      txt += `📦 *Product:* ${p.name} (${p.form})\n`;
+      txt += `🏷️ *Category:* ${p.category}\n`;
+      if (r.flockSize > 0) txt += `🐤 *Flock Size:* ${r.flockSize.toLocaleString()} birds\n`;
+      txt += `\n`;
+      txt += `💰 *FINANCIAL SUMMARY:*\n`;
+      txt += `• *Total Investment:* ${formatCurrency(r.investment)} (${formatCurrency(r.costPerBird)}/bird)\n`;
+      txt += `• *Gross Benefit:* ${formatCurrency(r.totalBenefit)} (${formatCurrency(r.benefitPerBird)}/bird)\n`;
+      txt += `• *ESTIMATED NET PROFIT:* ${formatCurrency(r.netProfit)} (${formatCurrency(r.netProfitPerBird)}/bird)\n`;
+      txt += `• *Benefit:Cost ROI:* ${r.roi.toFixed(2)}x\n`;
+      txt += `\n`;
+      txt += `📊 *VALUE BREAKDOWN:*\n`;
+      if (r.breakdown.weight > 0) txt += `• Weight Gain: ${formatCurrency(r.breakdown.weight)}\n`;
+      if (r.breakdown.mortality > 0) txt += `• Mortality Saved: ${formatCurrency(r.breakdown.mortality)}\n`;
+      if (r.breakdown.feed > 0) txt += `• Feed Saved: ${formatCurrency(r.breakdown.feed)}\n`;
+      if (r.breakdown.egg > 0) txt += `• Extra Egg Value: ${formatCurrency(r.breakdown.egg)}\n`;
+      txt += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      txt += `_Model verified from validated field trials & commercial economics._`;
+
+      return txt;
+    }
+
+    function shareOnWhatsApp() {
+      const txt = generateSummaryText();
+      const encoded = encodeURIComponent(txt);
+      window.open(`https://api.whatsapp.com/send?text=${encoded}`, "_blank");
+    }
+
+    function shareQuotationWhatsApp() {
+      const farmer = document.getElementById("quoteFarmerName").value;
+      const loc = document.getElementById("quoteLocation").value;
+      const txt = generateSummaryText(farmer, loc);
+      const encoded = encodeURIComponent(txt);
+      window.open(`https://api.whatsapp.com/send?text=${encoded}`, "_blank");
+    }
+
+    /* ── COPY TEXT SUMMARY ── */
+    function copySummary() {
+      const txt = generateSummaryText();
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(txt).then(() => {
+          showToast("Summary copied to clipboard!");
+        }).catch(() => {
+          fallbackCopy(txt);
+        });
+      } else {
+        fallbackCopy(txt);
+      }
+    }
+
+    function fallbackCopy(txt) {
+      const textarea = document.createElement("textarea");
+      textarea.value = txt;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showToast("Summary copied to clipboard!");
+      } catch (err) {
+        showToast("Please manually copy the text.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    /* ── TOAST NOTIFICATIONS ── */
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toastMsg");
+      toastMsg.innerText = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    /* ── SERVICE WORKER REGISTRATION ── */
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+
+    // Startup
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
