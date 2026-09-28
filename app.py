@@ -265,8 +265,8 @@ SWEEP_PARAMS: Dict[str, List[Tuple[str, str]]] = {
     "gutsol_powder": [
         ("flock_size", "Flock Size"),
         ("live_bird_price", "Live Bird Price"),
-        ("mortality_reduction_pct", "Mortality Reduction %"),
-        ("extra_weight_gain_g", "Extra Weight/Bird (g)"),
+        ("treatment_mortality_pct", "Treatment Mortality %"),
+        ("treatment_body_weight_kg", "Treatment BW"),
     ],
     "immon_layer": [
         ("flock_size", "Flock Size"),
@@ -283,7 +283,7 @@ SWEEP_PARAMS: Dict[str, List[Tuple[str, str]]] = {
     "colikil_r": [
         ("flock_size", "Flock Size"),
         ("live_bird_price", "Live Bird Price"),
-        ("treatment_fcr", "Treatment FCR"),
+        ("treatment_feed_consumption_kg", "Treatment Feed Consumption"),
         ("treatment_body_weight_kg", "Treatment BW"),
     ],
     "colikil_liquid": [

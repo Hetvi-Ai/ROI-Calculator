@@ -65,6 +65,22 @@ class ImmonBroilerCalculator(BaseCalculator):
                 {"name": "Investment", "amount": -total_product_cost},
             ],
             formulas=formulas,
-            comparison=[],
+            comparison=[
+                {
+                    "metric": "Total Body Weight (kg)",
+                    "control": round(control_bw_kg * flock_size, 2),
+                    "treatment": round(treatment_bw_kg * flock_size, 2),
+                },
+                {
+                    "metric": "Total Feed Consumption (kg)",
+                    "control": 0.0,
+                    "treatment": 0.0,
+                },
+                {
+                    "metric": "Mortality (%)",
+                    "control": round(control_mortality_pct, 2),
+                    "treatment": round(treatment_mortality_pct, 2),
+                },
+            ],
             notes=["Mortality benefit is calculated using a percentage reduction times treatment BW and flock size to avoid mixing percentage and flock-level terms."],
         )

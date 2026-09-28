@@ -17,14 +17,14 @@ _TEAL = "#0EA5E9"
 _VIOLET = "#8B5CF6"
 _AMBER = "#F59E0B"
 
-
+ 
 # ── Sensitivity sweep helper ──────────────────────────────────────────────────
 
 def _sweep_param(
     calc_fn,
     base_values: Dict[str, Any],
     param_key: str,
-    base_val: float,
+    base_val: float, 
     pct_range: float = 0.30,
     steps: int = 11,
 ) -> Tuple[List[float], List[float], List[float]]:

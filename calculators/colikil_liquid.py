@@ -65,6 +65,22 @@ class ColikilLiquidCalculator(BaseCalculator):
                 {"name": "Investment", "amount": -total_product_cost},
             ],
             formulas=formulas,
-            comparison=[],
+            comparison=[
+                {
+                    "metric": "Total Body Weight (kg)",
+                    "control": round(control_bw * flock_size, 2),
+                    "treatment": round(treatment_bw * flock_size, 2),
+                },
+                {
+                    "metric": "Total Feed Consumption (kg)",
+                    "control": 0.0,
+                    "treatment": 0.0,
+                },
+                {
+                    "metric": "Mortality (%)",
+                    "control": 0.0,
+                    "treatment": 0.0,
+                },
+            ],
             notes=["Dose is explicitly treated as water-to-product ratio. The product used in mL/bird is separated from total flock cost."],
         )

@@ -70,6 +70,22 @@ class CRDXIRCalculator(BaseCalculator):
                 {"name": "Investment", "amount": -total_product_cost},
             ],
             formulas=formulas,
-            comparison=[],
+            comparison=[
+                {
+                    "metric": "Total Body Weight (kg)",
+                    "control": round(control_bw * flock_size, 2),
+                    "treatment": round(treatment_bw * flock_size, 2),
+                },
+                {
+                    "metric": "Total Feed Consumption (kg)",
+                    "control": 0.0,
+                    "treatment": 0.0,
+                },
+                {
+                    "metric": "Mortality (%)",
+                    "control": round(control_mortality_pct, 2),
+                    "treatment": round(treatment_mortality_pct, 2),
+                },
+            ],
             notes=["The dose is tracked in mL per 1000 birds/day and converted to per-bird cost before ROI is calculated."],
         )
